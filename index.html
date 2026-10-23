@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alleycat 3D — Scenery & Weather Edition</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="start-menu">
+    <div class="start-title">ALLEYCAT 3D</div>
+    <div class="start-tagline">An open-world fixed-gear courier sim. Chase the streak, gear up at the shop, and climb the courier ranks through a living city with a full day/night cycle with distinct sunset lighting and dynamic weather.</div>
+    <div class="mode-grid">
+      <div class="mode-card solo free">
+        <div class="mode-card-title">START RIDE</div>
+        <div class="mode-card-desc">Endless deliveries across an open city. Build delivery streaks for bigger payouts, gear up at the shop, and climb the courier ranks at your own pace as the city cycles from day to night around you.</div>
+        <button id="free-mode-btn" class="mode-card-btn">RIDE OUT</button>
+      </div>
+    </div>
+    <div class="visual-showcase">
+      <div class="showcase-panel">
+        <div class="showcase-title">CITY / BUILDING DIRECTION</div>
+        <div class="showcase-grid">
+          <div><img class="showcase-img" src="gedung.jpg" alt="Glass tower reference"><div class="showcase-caption">Glass tower facades</div></div>
+          <div><img class="showcase-img" src="gedung 2.jpg" alt="City tower reference"><div class="showcase-caption">Dense modern skyline</div></div>
+        </div>
+        <div class="building-style-pill">◆ GLASS METROPOLITAN DISTRICT</div>
+      </div>
+      <div class="showcase-panel">
+        <div class="showcase-title">NEW BICYCLES / SHOP MODELS</div>
+        <div class="showcase-grid">
+          <div><img class="showcase-img" src="tsunami snm100.jpg" alt="Tsunami SNM100 reference"><div class="showcase-caption">Tsunami SNM100</div></div>
+          <div><img class="showcase-img" src="gray f15.jpg" alt="Gray F15 reference"><div class="showcase-caption">Gray F15</div></div>
+        </div>
+        <div class="city-style">Reference images now represent purchasable bikes in the Courier Shop.</div>
+      </div>
+    </div>
+    <div class="start-footer">[W/A/S/D] Pedal & Steer &nbsp;·&nbsp; [SHIFT] Sprint &nbsp;·&nbsp; [SPACE] Hop &nbsp;·&nbsp; [F] Air Spin &nbsp;·&nbsp; [B] Shop &nbsp;·&nbsp; [M] Change Weather</div>
+  </div>
+
+  <div id="ui">
+    <div class="environment-pills">
+      <div class="daynight-pill" id="daynight-pill">☀️ <span id="daynight-label">DAY</span></div>
+      <div class="weather-pill" id="weather-pill">☀️ <span id="weather-label">CLEAR</span></div>
+    </div>
+    <div class="hud-top">
+      <div class="hud-card">
+        <div class="title">ALLEYCAT 3D</div>
+        <div class="stats">DELIVERY #<span id="cp-count">0</span> | TARGET: <span id="dist-val">0</span>m</div>
+        <div class="mission-line" id="mission-label">ORDER: PICK UP PACKAGE</div>
+        <div class="mission-timer" id="mission-timer">READY</div>
+        <div class="stats" id="rank-label">RANK: Rookie Courier</div>
+        <div class="city-style">CITY STYLE: GLASS METROPOLITAN</div>
+        <div class="streak-label" id="streak-label"></div>
+      </div>
+      <div class="hud-top-right">
+        <button id="pause-btn" class="pause-btn" aria-label="Pause game">||</button>
+        <div id="nav-ring">
+          <div id="arrow"></div>
+        </div>
+        <div id="club-badge" class="club-badge"></div>
+        <div class="hud-card coin-card">
+          <div class="coin-row">🪙 <span id="coin-val">50</span></div>
+          <button id="shop-btn" class="shop-btn">SHOP</button>
+        </div>
+      </div>
+    </div>
+    <div id="crash-overlay">
+      <div id="crash-text">CRASHED!</div>
+    </div>
+    <div id="toast" class="toast"></div>
+    <div class="camera-mode" id="camera-mode">CHASE CAMERA</div>
+    <div class="hud-bottom">
+      <div class="hud-card">
+        <div class="speedo"><span id="speed-val">0</span> <span>KM/H</span> <span id="skid-badge" class="skid-indicator">SKID</span><span id="sprint-badge" class="sprint-indicator">SPRINT</span></div>
+        <div class="stamina-row">
+          <span class="stamina-label">STAMINA</span>
+          <div class="stamina-bar"><div id="stamina-fill" class="stamina-fill"></div></div>
+        </div>
+        <div class="controls-hint"><b>[W/↑]</b> Pedal &nbsp; <b>[SHIFT]</b> Sprint &nbsp; <b>[C + mouse]</b> Free Camera &nbsp; <b>[S/↓]</b> Fixed Skid &nbsp; <b>[A/D/←/→]</b> Steer & Lean &nbsp; <b>[SPACE]</b> Hop &nbsp; <b>[F]</b> Air Spin &nbsp; <b>[B]</b> Shop &nbsp; <b>[M]</b> Weather</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="pause-overlay" class="pause-overlay">
+    <div class="pause-panel">
+      <div class="pause-title">RIDE PAUSED</div>
+      <div class="pause-status">Your order timer is stopped.</div>
+      <div class="pause-actions">
+        <button id="resume-btn" class="pause-action primary">RESUME RIDE</button>
+        <button id="restart-btn" class="pause-action">RESTART RIDE</button>
+      </div>
+      <div class="pause-hint">Press ESC or P to resume</div>
+    </div>
+  </div>
+
+  <div id="shop-overlay" class="shop-overlay">
+    <div class="shop-panel">
+      <div class="shop-header">
+        <div class="shop-title">COURIER SHOP</div>
+        <div class="shop-coins">🪙 <span id="shop-coin-val">50</span></div>
+        <button id="shop-close" class="shop-close">✕</button>
+      </div>
+      <div class="shop-tabs">
+        <button class="shop-tab active" data-tab="bikes">Bicycles</button>
+        <button class="shop-tab" data-tab="gear">Jewelry & Gear</button>
+        <button class="shop-tab" data-tab="club">Clubs</button>
+      </div>
+      <div id="shop-items" class="shop-items"></div>
+    </div>
+  </div>
+
+  <div id="canvas-container"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <script src="game.js"></script>
+</body>
+</html>
